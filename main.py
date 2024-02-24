@@ -18,11 +18,20 @@ from Farbchecker import Farbchecker
 farb = Farbchecker()
 
 wurf = Wuerfel()
+solve = CubeSolver(wurf)
+
 print(wurf.colorPrint())
 
 
-ev3 = EV3Brick()
-colSens = ColorSensor(Port.S1)
+wurf.mischen(100)
+print(wurf.colorPrint())
+print(wurf.cubeHistory)
+
+solve.makeKreuz()
+
+
+print(wurf.colorPrint())
+print(solve.getHistory())
 
 
 
