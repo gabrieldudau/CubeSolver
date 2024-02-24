@@ -70,6 +70,7 @@ class Wuerfel:
     
 
     def seiteDrehen(self, farbe:str, richtung:int):                            # Richtung entweder 1 (-> Uhrzeiger) oder -1 (-> gegen Uhrzeiger)
+        """Simuliert das Drehen einer Seite. Wenn man den Würfel so hält wie die Beschreibung es sagt, dann wird das genau so aussehen, wie die Methode es sagt."""
         if farbe not in self.cube.keys() and richtung > 1 and richtung < 1 :
             return
             
@@ -187,6 +188,37 @@ class Wuerfel:
             seite = random.randint(0,5)
             self.seiteDrehen(list(self.cube.keys())[seite], random.choice([-1,1]) )
 
+
+    def colorPrint(self) -> str:
+        up = ""
+        middle = ""
+        down = ""
+        for key in self.cube.keys():
+            up += "|"+ self.getPrintColor(self.cube[key][7]) + "|" + self.getPrintColor(self.cube[key][0]) + "|" + self.getPrintColor(self.cube[key][1]) + "|  |||  "
+            middle += "|"+ self.getPrintColor(self.cube[key][6]) + "|" + self.getPrintColor(key) + "|" + self.getPrintColor(self.cube[key][2]) + "|  |||  "
+            down +=  "|"+self.getPrintColor(self.cube[key][5]) + "|" + self.getPrintColor(self.cube[key][4]) + "|" + self.getPrintColor(self.cube[key][3]) + "|  |||  "
+        return str(self.getPrintColor("up")+("|||  "+up + "\n") * 2 + self.getPrintColor("up") + ("|||  "+middle + "\n") * 2 + self.getPrintColor("up") +  ("|||  "+down + "\n") * 2 )+ self.getPrintColor("up")
+    
+    def getPrintColor(self, letter) -> str:
+        outLetterNum = 4
+        if letter ==  "R":
+            return RED_Background + " "*outLetterNum + BLACK_Background
+        if letter ==  "Y":
+            return YELLOW_Background + " "*outLetterNum + BLACK_Background
+        if letter ==  "O":
+            return ORANGE_BACKGROUND + " "*outLetterNum + BLACK_Background
+        if letter ==  "W":
+            return WHITE_Background + " "*outLetterNum + BLACK_Background
+        if letter ==  "B":
+            return BLUE_Background + " "*outLetterNum + BLACK_Background
+        if letter ==  "G":
+            return GREEN_Background + " "*outLetterNum + BLACK_Background
+        if letter ==  "up":
+            return "|||  "+(("+"+"-"*outLetterNum)*2+"+"+"-"*outLetterNum+"+"+"  |||  ")*6 + "\n"
+        else:
+            return "NNNNN"
+
+
     def __ausgabeSeite(self, color) -> str:
         if color in self.cube.keys():
             out = ""
@@ -209,9 +241,8 @@ class Wuerfel:
         return out
 
     def __str__(self) -> str:
-        return self.colorPrint() + "\n\n"
+        return self.printAlt() + "\n"
             
-
 
 
 

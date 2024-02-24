@@ -12,33 +12,18 @@ from Cube import Wuerfel
 from CubeSolver import CubeSolver
 from Farbchecker import Farbchecker
 
-
-
-# This program requires LEGO EV3 MicroPython v2.0 or higher.
-# Click "Open user guide" on the EV3 extension tab for more information.
-
+# -----------------------------------------------------------------Testprogramm für PC ohne ev3-----------------------------------------------------------------
 
 
 farb = Farbchecker()
+
+wurf = Wuerfel()
+print(wurf.colorPrint())
 
 
 ev3 = EV3Brick()
 colSens = ColorSensor(Port.S1)
 
 
-while True:
-    colors = colSens.rgb()
-    
 
-    if Button.DOWN in ev3.buttons.pressed():
-        ev3.screen.clear()
-        print(colors)
-        out = "R:" + str(colors[0]) + "-G:" + str(colors[1])+ "-B:" + str(colors[2])
-        ev3.screen.print(out)
-        ev3.screen.print(str(farb.getRubicsColor(colors[0], colors[1], colors[2])))
-        print(str(farb.getRubicsColor(colors[0], colors[1], colors[2])))
-    if Button.UP in ev3.buttons.pressed() :
-        break
-    
-    
     
