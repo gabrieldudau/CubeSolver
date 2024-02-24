@@ -134,6 +134,7 @@ class CubeSolver:
 
     def kanteMicroLow1(self, num:int):
         """benutzt wenn untere Kante mit weiß nach unten zeigt und lediglich gedreht werden muss"""
+        
         middles = ["B","R","G","O"]
         col = middles[num - 9]
         zugehoerigeKante = num - 8
@@ -162,14 +163,44 @@ class CubeSolver:
             self.__solvehistory.append(("Y", 1))
             self.__curentTeile()
         
+        # Ich saß so lange hier dran... 
+        # Ich hab diesen Algorithmus jetzt selbst erstellt, weiß nicht ob es effektiver geht.
+        
+        self.cube.seiteDrehen(col, 1)
+        self.__solvehistory.append((col, 1))
+        
         self.cube.seiteDrehen(col, 1)
         self.__solvehistory.append((col, 1))
         
         self.cube.seiteDrehen("Y", 1)
         self.__solvehistory.append(("Y", 1))
         
-        self.cube.seiteDrehen(middles[num - 10], -1)
+        self.cube.seiteDrehen(middles[num - 10], 1)
+        self.__solvehistory.append((middles[num - 10],1))
+        
+        self.cube.seiteDrehen("Y", -1)
+        self.__solvehistory.append(("Y", -1))
+        
+        self.cube.seiteDrehen(col, -1)
+        self.__solvehistory.append((col, -1))
+        
+        self.cube.seiteDrehen("Y", 1)
         self.__solvehistory.append(("Y", 1))
+        
+        self.cube.seiteDrehen(middles[num - 10], -1)
+        self.__solvehistory.append((middles[num - 10],-1))
+        
+        self.cube.seiteDrehen("Y", -1)
+        self.__solvehistory.append(("Y", -1))
+        
+        self.cube.seiteDrehen(col, 1)
+        self.__solvehistory.append((col, 1))
+        
+        self.cube.seiteDrehen(col, 1)
+        self.__solvehistory.append((col, 1))
+        
+        # Es geht glaube ich nicht mit weniger moves, weil man muss es halt so bewegen, sodass 
+        # keine anderen zerstört werden. 
         
         self.__curentTeile()
 
