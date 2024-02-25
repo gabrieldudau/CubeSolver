@@ -1,4 +1,4 @@
-from Cube import Wuerfel
+from Robot.Cube.Cube import Wuerfel
 
 class CubeSolver:
     """### Diese Klasse löst den Würfel

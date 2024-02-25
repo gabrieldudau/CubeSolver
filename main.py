@@ -8,9 +8,9 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-from Cube import Wuerfel
-from CubeSolver import CubeSolver
-from Farbchecker import Farbchecker
+from Robot.Cube.Cube import Wuerfel
+from Robot.Cube.CubeSolver import CubeSolver
+from Robot.Sensors.Farbchecker import Farbchecker
 
 # -----------------------------------------------------------------Testprogramm für PC ohne ev3-----------------------------------------------------------------
 
