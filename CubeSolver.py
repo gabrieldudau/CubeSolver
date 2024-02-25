@@ -3,7 +3,7 @@ from Cube import Wuerfel
 class CubeSolver:
     """### Diese Klasse löst den Würfel
     Es ist notwendig, ein Objekt der Klasse Würfel zu bekommen. Anschließend wird mit den jeweiligen Methoden dieser Klasse, wie zum Beispiel
-    makeKreuz() das eingegebene Würfel-Objekt "gelöst. Die dazu gebrauchten Bewegungen werden gespeichert. Man kann diese mit getHistory() bekommen.
+    solveCross() das eingegebene Würfel-Objekt "gelöst. Die dazu gebrauchten Bewegungen werden gespeichert. Man kann diese mit getHistory() bekommen.
     """
     def __init__(self, cube:Wuerfel):
         self.cube = cube
@@ -24,8 +24,9 @@ class CubeSolver:
         return self.__solvehistory
     
     
-    
-    def makeKreuz(self):
+    # ---------------------------------------------------------Anfang weißes Kreuz---------------------------------------------------------
+
+    def solveCross(self):
         self.__curentTeile()
         
         # Hier werden die oberen Kanten gelöst. Wenn eine Kante mit weiß nach oben zeigt passt es, ansonsten
@@ -38,7 +39,7 @@ class CubeSolver:
             if not "W" in notwendige:
                 break
             else:
-                self.kanteMicroUp(notwendige.index("W") + 1)
+                self.__SCkanteMicroUp(notwendige.index("W") + 1)
             notwendige = [self.__kanten[i][0] for i in range(0,4)]
         
         # Hier lösen wir die Mitten. Hierbei kommt es manchmal dazu, dass eine weiße Kante die in der 
@@ -50,14 +51,14 @@ class CubeSolver:
         while len(middleWhite) > 0:
             if middleWhite[0] in [5,7]:
                 if self.__kanten[middleWhite[0]-1][0] == "W":
-                    self.kanteMicroMid1(middleWhite[0])
+                    self.__SCkanteMicroMid1(middleWhite[0])
                 else: 
-                    self.kanteMicroMid2(middleWhite[0])
+                    self.__SCkanteMicroMid2(middleWhite[0])
             else:
                 if self.__kanten[middleWhite[0]-1][0] == "W":
-                    self.kanteMicroMid2(middleWhite[0])
+                    self.__SCkanteMicroMid2(middleWhite[0])
                 else: 
-                    self.kanteMicroMid1(middleWhite[0])
+                    self.__SCkanteMicroMid1(middleWhite[0])
             middleWhite = list(set(self.__whiteKanten).intersection([5,6,7,8]))
         
         # Hier werden die unteren weißen Kanten behandelt. Es gibt wieder zwei Fälle, eine weiße Seite der Kante 
@@ -67,17 +68,17 @@ class CubeSolver:
         
         for kante in lowWhite:
             if self.__kanten[kante-1][1] == "W":
-                self.kanteMicroLow1(kante)
+                self.__SCkanteMicroLow1(kante)
             else:
-                self.kanteMicroLow2(kante)
+                self.__SCkanteMicroLow2(kante)
         
         # Nun sind alle Kanten die eine weiße Seite haben nach oben ausgerichtet. Jetzt werden diese weißen Seiten
         # zurechtgerückt und einfach nach oben geschoben. Das weiße Kreuz wird dadurch gebildet. Wir brauchen 
         # hier nur eine Methode. 
         
-        self.kanteMicroFix()
+        self.__SCkanteMicroFix()
 
-    def kanteMicroUp(self, num:int):
+    def __SCkanteMicroUp(self, num:int):
         """benutzt falls Kante oben ist, aber weiß nicht nach oben sondern seitlich zeigt"""
         middles = ["B","R","G","O"]
         col = middles[num-1]
@@ -96,7 +97,7 @@ class CubeSolver:
         
         self.__curentTeile()
 
-    def kanteMicroMid1(self, num:int):
+    def __SCkanteMicroMid1(self, num:int):
         """benutzt bei besonderem Fall der mittleren Kanten"""
         middles = ["B","R","G","O"]
         col = middles[num-6]
@@ -116,7 +117,7 @@ class CubeSolver:
         
         self.__curentTeile()
 
-    def kanteMicroMid2(self, num:int):
+    def __SCkanteMicroMid2(self, num:int):
         """benutzt bei besonderem Fall der mittleren Kanten"""
         middles = ["B","R","G","O"]
         col = middles[num-5]
@@ -133,7 +134,7 @@ class CubeSolver:
         
         self.__curentTeile()
 
-    def kanteMicroLow1(self, num:int):
+    def __SCkanteMicroLow1(self, num:int):
         """benutzt wenn untere Kante mit weiß nach unten zeigt und lediglich gedreht werden muss"""
         
         middles = ["B","R","G","O"]
@@ -153,7 +154,7 @@ class CubeSolver:
         
         self.__curentTeile()
 
-    def kanteMicroLow2(self, num:int):
+    def __SCkanteMicroLow2(self, num:int):
         """benutzt wenn untere Kante mit weiß seitlich zeigt und mehr angepasst werden muss"""
         middles = ["B","R","G","O"]
         col = middles[num - 9]
@@ -205,7 +206,7 @@ class CubeSolver:
         
         self.__curentTeile()
 
-    def kanteMicroFix(self):
+    def __SCkanteMicroFix(self):
         """wenn alle Kanten mit weiß oben stehen und mit weiß nach oben zeigen dann bringt diese Methode sie in die Richtige Position"""
         middles = ["B","R","G","O"]
         for i in range(0,4):
@@ -229,10 +230,26 @@ class CubeSolver:
             self.__solvehistory.append((middles[colorIndex%4], 1))
             
             self.__curentTeile()
-    
+
+# ----------------------------------------------------------Ende weißes Kreuz----------------------------------------------------------
+
+
+# ---------------------------------------------------------Anfang untere Ecken---------------------------------------------------------
+
     def solveDownCorner(self):
-        self.makeKreuz()
+        """Bei dieser Methode ist das weiße Kreuz gemacht. Der nächste Schritt sind also die Ecken. 
+        Diese Methode erstellt zunächst ein weißes Kreuz und fängt dann an die Ecken zu lösen."""
+        
+        self.solveCross()
+        
+        print("________________________________________KREUZ__________________________________\n")
+        print(self.cube.colorPrint())
+        print("________________________________________________________________________________")
+        
         self.__curentTeile()
+        
+        # Es wird unterschieden zwischen den oberen und den unteren Ecken. Down Ecken speichert Ecken, die noch nicht am richtigen Ort sind
+        # ab, damit sie gelöst werden können.
         
         upperEcken = list(set(self.__whiteEcken).intersection([1,2,3,4]))
         downEcken = []
@@ -241,6 +258,10 @@ class CubeSolver:
                                            len(list(set(["B", "R", "G", "O"]).intersection(self.__ecken[i])
                                            .intersection([["B", "R", "G", "O"][i-5], ["B", "R", "G", "O"][i-4]]))) != 2):
                 downEcken.append(i)
+        
+        # Diese Schleife löst die Ecken. Nach jedem Schritt müssen upperEcken und downEcken wieder angepasst werden. Die 
+        # Hauptsächlichen Bewegungen passieren in den __DC (downCorner) Methoden. Die __micro - Methoden werden später auch von anderen 
+        # Lösungsschritten benutzt. 
         
         while len(upperEcken) > 0 or len(downEcken) > 0:
             if len(upperEcken)>0:
@@ -266,8 +287,6 @@ class CubeSolver:
                         downEcken.append(i)
                 upperEcken = list(set(self.__whiteEcken).intersection([1,2,3,4]))
 
-            
-    
     def __DCupperCornerSolve(self, num:int):
         self.__curentTeile()
         num = num - 1
@@ -283,29 +302,29 @@ class CubeSolver:
         
         if num%4 == 1 or num%4 == 3:
             if self.__ecken[num%4][0] == "W":
-                self._eckeMicro2(middles[num%4 - 1])
+                self.__eckeMicro2(middles[num%4 - 1])
             elif self.__ecken[num%4][1] == "W":
                 for i in range(0,3):
-                    self._eckeMicro1(middles[num%4-1])
+                    self.__eckeMicroR1(middles[num%4-1])
             else:
-                self._eckeMicro1(middles[num%4-1])
+                self.__eckeMicroR1(middles[num%4-1])
         else:
             if self.__ecken[num%4][0] == "W":
-                self._eckeMicro1(middles[num%4-1])
+                self.__eckeMicroR1(middles[num%4-1])
             elif self.__ecken[num%4][1] == "W":
                 for i in range(0,3):
-                    self._eckeMicro1(middles[num%4-1])
+                    self.__eckeMicroR1(middles[num%4-1])
             else:
-                self._eckeMicro2(middles[num%4-1])
+                self.__eckeMicro2(middles[num%4-1])
         self.__curentTeile()
-            
+
     def __DCdownCornerSolve(self, num:int):
         middles = ["B", "R", "G", "O"]
-        self._eckeMicro1(middles[num-5])
+        self.__eckeMicroR1(middles[num-5])
         self.__curentTeile()
         self.__DCupperCornerSolve(num-3)
-    
-    def _eckeMicro1(self, col):
+
+    def __eckeMicroR1(self, col):
         """Ecke von oben nach unten bringen"""
         col = ["B", "R", "G", "O", "B"][["B", "R", "G", "O", "B"].index(col) + 1]
         self.cube.seiteDrehen(col, 1)
@@ -321,9 +340,25 @@ class CubeSolver:
         self.__solvehistory.append(("Y", -1))
         
         self.__curentTeile()
-    
-    
-    def _eckeMicro2(self, col):
+
+    def __eckeMicroL1(self, col):
+        col = ["B", "R", "G", "O"][["B", "R", "G", "O", "B"].index(col) -1]
+        
+        self.cube.seiteDrehen(col, -1)
+        self.__solvehistory.append((col, -1))
+        
+        self.cube.seiteDrehen("Y", -1)
+        self.__solvehistory.append(("Y", -1))
+        
+        self.cube.seiteDrehen(col, 1)
+        self.__solvehistory.append((col, 1))
+        
+        self.cube.seiteDrehen("Y", 1)
+        self.__solvehistory.append(("Y", 1))
+        
+        self.__curentTeile()
+
+    def __eckeMicro2(self, col):
         col = ["B", "R", "G", "O", "B"][["B", "R", "G", "O", "B"].index(col) + 1]
         
         self.cube.seiteDrehen("Y", 1)
@@ -339,8 +374,110 @@ class CubeSolver:
         self.__solvehistory.append((col, -1))
         
         self.__curentTeile()
+
+# ---------------------------------------------------------Ende untere Ecken---------------------------------------------------------
+
+# ---------------------------------------------------------Anfang mittlere Kanten---------------------------------------------------------
+
+    def solveMidSides(self):
+        self.solveDownCorner()
         
+        print("________________________________________erste Schicht______________________________________\n")
+        print(self.cube.colorPrint())
+        print("________________________________________________________________________________________")
+        
+        middles = ["B", "R", "G", "O"]
+        
+        upperSide = []
+        for i in range(0,4):
+            if not "Y" in self.__kanten[i]:
+                upperSide.append(i+1)
+        
+        while len(upperSide)>0:
+            self.__MSsolveUpperSide(upperSide[0])
+            
+            upperSide.clear()
+            for i in range(0,4):
+                if not "Y" in self.__kanten[i]:
+                    upperSide.append(i+1)
+        
+        middleSide = []
+        for i in range(4, 8):
+            if i == 4 or i == 6:
+                if self.__kanten[i][0] != middles[i-4] and self.__kanten[i][1] != middles[i-5]: middleSide.append(i+1)
+            else:
+                if self.__kanten[i][0] != middles[i-5] and self.__kanten[i][1] != middles[i-4]: middleSide.append(i+1)
+        
+        while len(middleSide) > 0:
+            self.__MSsolveMidSide(middleSide[0])
+            
+            middleSide.clear()
+            
+            for i in range(4, 8):
+                if i == 4 or i == 6:
+                    if self.__kanten[i][0] != middles[i-4] and self.__kanten[i][1] != middles[i-5]: middleSide.append(i+1)
+                else:
+                    if self.__kanten[i][0] != middles[i-5] and self.__kanten[i][1] != middles[i-4]: middleSide.append(i+1)
+        
+        
+        print("________________________________________zweite Schicht______________________________________\n")
+        print(self.cube.colorPrint())
+        print("________________________________________________________________________________________")
     
+    def __MSsolveUpperSide(self, num:int):
+        self.__curentTeile()
+        num = num-1 
+        middles = ["B", "R", "G", "O"]
+        midCol = self.__kanten[num%4][0]
+        
+        while middles[num%4] != midCol:
+            self.cube.seiteDrehen("Y", -1)
+            self.__solvehistory.append(("Y", -1))
+            self.__curentTeile()
+            num += 1
+        
+        targetCol = self.__kanten[num%4][1]
+        
+        if middles[(num+1)%4] == targetCol:
+            self.cube.seiteDrehen("Y", 1)
+            self.__solvehistory.append(("Y", 1))
+            
+            self.__eckeMicroR1(midCol)
+            self.__eckeMicroL1(targetCol)
+            
+        else:
+            self.cube.seiteDrehen("Y", -1)
+            self.__solvehistory.append(("Y", -1))
+            
+            self.__eckeMicroL1(midCol)
+            self.__eckeMicroR1(targetCol)
+            
+        self.__curentTeile()
+
+    def __MSsolveMidSide(self, num:int):
+        middles = ["B", "R", "G", "O"]
+        self.__curentTeile()
+        self.__eckeMicroR1(middles[num-6])
+        
+        self.__curentTeile()
+        self.__eckeMicroL1(middles[num-5])
+        
+        self.__curentTeile()
+        
+        upperSide = []
+        for i in range(0,4):
+            if not "Y" in self.__kanten[i]:
+                upperSide.append(i+1)
+        
+        while len(upperSide)>0:
+            self.__MSsolveUpperSide(upperSide[0])
+            
+            upperSide.clear()
+            for i in range(0,4):
+                if not "Y" in self.__kanten[i]:
+                    upperSide.append(i+1)
+
+
     def __curentKanten(self):
         self.__kanten.clear()
         self.__kanten = [self.cube.getSide(i) for i in range (1,13)]
@@ -364,8 +501,4 @@ class CubeSolver:
     def __curentTeile(self):
         self.__curentEcken()
         self.__curentKanten()
-        
-        
-        
-    
         
