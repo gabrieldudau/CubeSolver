@@ -10,12 +10,13 @@ class CubeSolver:
         self.__solvehistory = []
         
         self.__ecken = []
-        self.__curentEcken()
         
         self.__kanten = []
-        self.__curentKanten()
         
         self.__whiteKanten = []     # Die Position der weißen Kanten als Zahl
+        self.__whiteEcken = []      # Die Position der weißen Ecken als Zahl
+        
+        self.__curentTeile()
         
         
     
@@ -229,12 +230,80 @@ class CubeSolver:
             
             self.__curentTeile()
     
-    def solveCorner(self):
+    def solveDownCorner(self):
         self.makeKreuz()
+        self.__curentTeile()
         
-        self.__curentEcken()
+        upperEcken = list(set(self.__whiteEcken).intersection([1,2,3,4]))
+        downEcken = []
+        for i in range (4,8):
+            if "W" in self.__ecken[i] and (self.__ecken[i][1] != "W" or 
+                                           len(list(set(["B", "R", "G", "O"]).intersection(self.__ecken[i])
+                                           .intersection([["B", "R", "G", "O"][i-5], ["B", "R", "G", "O"][i-4]]))) != 2):
+                downEcken.append(i)
+        
+        while len(upperEcken) > 0 or len(downEcken) > 0:
+            if len(upperEcken)>0:
+                self.__DCupperCornerSolve(upperEcken[0])
+            
+            upperEcken = list(set(self.__whiteEcken).intersection([1,2,3,4]))
+            downEcken.clear()
+            for i in range (4,8):
+                if "W" in self.__ecken[i] and (self.__ecken[i][1] != "W" or 
+                                            len(list(set(["B", "R", "G", "O"]).intersection(self.__ecken[i])
+                                            .intersection([["B", "R", "G", "O"][i-5], ["B", "R", "G", "O"][i-4]]))) != 2):
+                    downEcken.append(i)
+            
+            if len(downEcken)>0:
+                self.__DCdownCornerSolve(downEcken[0])
+                self.__curentTeile()
+                
+                downEcken.clear()
+                for i in range (4,8):
+                    if "W" in self.__ecken[i] and (self.__ecken[i][1] != "W" or 
+                                                len(list(set(["B", "R", "G", "O"]).intersection(self.__ecken[i])
+                                                .intersection([["B", "R", "G", "O"][i-5], ["B", "R", "G", "O"][i-4]]))) != 2):
+                        downEcken.append(i)
+                upperEcken = list(set(self.__whiteEcken).intersection([1,2,3,4]))
+
+            
+    
+    def __DCupperCornerSolve(self, num:int):
+        self.__curentTeile()
+        num = num - 1
+        middles = ["B", "R", "G", "O"]
+        betweenMiddles = list(set(middles).intersection(self.__ecken[num]))
         
         
+        while not(middles[num%4 - 1] in betweenMiddles and middles[num%4] in betweenMiddles):
+            self.cube.seiteDrehen("Y", -1)
+            self.__solvehistory.append(("Y", -1))
+            self.__curentTeile()
+            num = num + 1
+        
+        if num%4 == 1 or num%4 == 3:
+            if self.__ecken[num%4][0] == "W":
+                self._eckeMicro2(middles[num%4 - 1])
+            elif self.__ecken[num%4][1] == "W":
+                for i in range(0,3):
+                    self._eckeMicro1(middles[num%4-1])
+            else:
+                self._eckeMicro1(middles[num%4-1])
+        else:
+            if self.__ecken[num%4][0] == "W":
+                self._eckeMicro1(middles[num%4-1])
+            elif self.__ecken[num%4][1] == "W":
+                for i in range(0,3):
+                    self._eckeMicro1(middles[num%4-1])
+            else:
+                self._eckeMicro2(middles[num%4-1])
+        self.__curentTeile()
+            
+    def __DCdownCornerSolve(self, num:int):
+        middles = ["B", "R", "G", "O"]
+        self._eckeMicro1(middles[num-5])
+        self.__curentTeile()
+        self.__DCupperCornerSolve(num-3)
     
     def _eckeMicro1(self, col):
         """Ecke von oben nach unten bringen"""
@@ -251,7 +320,7 @@ class CubeSolver:
         self.cube.seiteDrehen("Y", -1)
         self.__solvehistory.append(("Y", -1))
         
-        self.__curentEcken()
+        self.__curentTeile()
     
     
     def _eckeMicro2(self, col):
@@ -269,24 +338,34 @@ class CubeSolver:
         self.cube.seiteDrehen(col, -1)
         self.__solvehistory.append((col, -1))
         
-        self.__curentEcken()
+        self.__curentTeile()
         
     
     def __curentKanten(self):
         self.__kanten.clear()
         self.__kanten = [self.cube.getSide(i) for i in range (1,13)]
-    
-    def __curentEcken(self):
-        self.__ecken.clear()
-        self.__ecken = self.cube.getCorners()
-    
-    def __curentTeile(self):
-        self.__curentEcken()
-        self.__curentKanten()
         
         self.__whiteKanten.clear()
         for i in range(0,12):
             if "W" in self.__kanten[i]:
                 self.__whiteKanten.append(i+1)
+    
+    def __curentEcken(self):
+        self.__ecken.clear()
+        self.__ecken = self.cube.getCorners()
+        
+        
+        self.__whiteEcken.clear()
+        for i in range(0,8):
+
+            if "W" in self.__ecken[i]:
+                self.__whiteEcken.append(i+1)
+    
+    def __curentTeile(self):
+        self.__curentEcken()
+        self.__curentKanten()
+        
+        
+        
     
         

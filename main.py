@@ -23,19 +23,18 @@ solve = CubeSolver(wurf)
 print(wurf.colorPrint())
 
 # Dieser moveset hat Mal für Bugs gesorgt. Mit diesen Zeilen kann man gut testen. 
-# moveset = [('Y', 1), ('W', -1), ('R', 1), ('O', -1), ('W', -1), ('W', -1), ('G', -1), ('W', -1), ('Y', -1), ('W', -1), ('R', -1), ('R', 1), ('B', 1), ('W', -1), ('W', 1), ('Y', 1), ('O', 1), ('Y', 1), ('O', -1), ('G', -1), ('Y', -1), ('Y', -1), ('R', -1), ('R', 1), ('Y', 1), ('Y', -1), ('O', -1), ('G', 1), ('O', 1), ('W', -1), ('Y', 1), ('O', -1), ('B', -1), ('Y', -1), ('Y', 1), ('G', -1), ('B', -1), ('R', 1), ('Y', -1), ('R', 1), ('G', -1), ('G', -1), ('W', 1), ('W', -1), ('W', 1), ('B', 1), ('R', 1), ('O', 1), ('R', -1), ('Y', -1), ('G', 1), ('O', -1), ('O', -1), ('Y', -1), ('W', -1), ('O', 1), ('W', -1), ('R', 1), ('G', -1), ('Y', 1), ('R', 1), ('W', 1), ('G', -1), ('B', 1), ('R', -1), ('O', 1), ('O', 1), ('W', -1), ('R', -1), ('R', 1), ('Y', 1), ('O', 1), ('G', 1), ('Y', -1), ('G', 1), ('W', 1), ('B', 1), ('B', -1), ('O', -1), ('Y', -1), ('W', 1), ('R', 1), ('G', -1), ('R', -1), ('O', 1), ('R', -1), ('R', -1), ('G', -1), ('W', 1), ('W', 1), ('W', -1), ('G', 1), ('W', 1), ('B', 1), ('B', -1), ('R', -1), ('Y', 1), ('B', -1), ('W', -1), ('G', 1)]
+# moveset = [('G', -1), ('W', -1), ('R', -1), ('G', -1), ('Y', 1)]
 # for item in moveset:
 #     wurf.seiteDrehen(item[0], item[1])
 
-wurf.mischen(100)
+wurf.mischen(1000)
 
 print(wurf.colorPrint())
-print(wurf.cubeHistory)
-
-solve.makeKreuz()
+solve.solveDownCorner()
 
 print(wurf.colorPrint())
 print(solve.getHistory())
+
 
 
 
