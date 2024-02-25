@@ -17,14 +17,11 @@ class CubeSolver:
         self.__whiteEcken = []      # Die Position der weißen Ecken als Zahl
         
         self.__curentTeile()
-        
-        
-    
+
     def getHistory(self):
         return self.__solvehistory
-    
-    
-    # ---------------------------------------------------------Anfang weißes Kreuz---------------------------------------------------------
+
+# ---------------------------------------------------------Anfang weißes Kreuz---------------------------------------------------------
 
     def solveCross(self):
         self.__curentTeile()
@@ -233,7 +230,6 @@ class CubeSolver:
 
 # ----------------------------------------------------------Ende weißes Kreuz----------------------------------------------------------
 
-
 # ---------------------------------------------------------Anfang untere Ecken---------------------------------------------------------
 
     def solveDownCorner(self):
@@ -242,9 +238,9 @@ class CubeSolver:
         
         self.solveCross()
         
-        print("________________________________________KREUZ__________________________________\n")
-        print(self.cube.colorPrint())
-        print("________________________________________________________________________________")
+        # print("________________________________________KREUZ__________________________________\n")
+        # print(self.cube.colorPrint())
+        # print("________________________________________________________________________________")
         
         self.__curentTeile()
         
@@ -382,9 +378,9 @@ class CubeSolver:
     def solveMidSides(self):
         self.solveDownCorner()
         
-        print("________________________________________erste Schicht______________________________________\n")
-        print(self.cube.colorPrint())
-        print("________________________________________________________________________________________")
+        # print("________________________________________erste Schicht______________________________________\n")
+        # print(self.cube.colorPrint())
+        # print("________________________________________________________________________________________")
         
         middles = ["B", "R", "G", "O"]
         
@@ -404,9 +400,9 @@ class CubeSolver:
         middleSide = []
         for i in range(4, 8):
             if i == 4 or i == 6:
-                if self.__kanten[i][0] != middles[i-4] and self.__kanten[i][1] != middles[i-5]: middleSide.append(i+1)
+                if (self.__kanten[i][0] != middles[i-4]) or (self.__kanten[i][1] != middles[i-5]): middleSide.append(i+1)
             else:
-                if self.__kanten[i][0] != middles[i-5] and self.__kanten[i][1] != middles[i-4]: middleSide.append(i+1)
+                if (self.__kanten[i][0] != middles[i-5]) or (self.__kanten[i][1] != middles[i-4]): middleSide.append(i+1)
         
         while len(middleSide) > 0:
             self.__MSsolveMidSide(middleSide[0])
@@ -415,14 +411,14 @@ class CubeSolver:
             
             for i in range(4, 8):
                 if i == 4 or i == 6:
-                    if self.__kanten[i][0] != middles[i-4] and self.__kanten[i][1] != middles[i-5]: middleSide.append(i+1)
+                    if (self.__kanten[i][0] != middles[i-4]) or (self.__kanten[i][1] != middles[i-5]): middleSide.append(i+1)
                 else:
-                    if self.__kanten[i][0] != middles[i-5] and self.__kanten[i][1] != middles[i-4]: middleSide.append(i+1)
+                    if (self.__kanten[i][0] != middles[i-5]) or (self.__kanten[i][1] != middles[i-4]): middleSide.append(i+1)
         
         
-        print("________________________________________zweite Schicht______________________________________\n")
-        print(self.cube.colorPrint())
-        print("________________________________________________________________________________________")
+        # print("________________________________________zweite Schicht______________________________________\n")
+        # print(self.cube.colorPrint())
+        # print("________________________________________________________________________________________")
     
     def __MSsolveUpperSide(self, num:int):
         self.__curentTeile()
@@ -474,9 +470,82 @@ class CubeSolver:
             
             upperSide.clear()
             for i in range(0,4):
-                if not "Y" in self.__kanten[i]:
+                if not ("Y" in self.__kanten[i]):
                     upperSide.append(i+1)
 
+# ---------------------------------------------------------Ende mittlere Kanten---------------------------------------------------------
+
+# ---------------------------------------------------------Anfang KreuzOben---------------------------------------------------------
+
+    def solveUpperCross(self):
+        self.solveMidSides()
+        yellowUp = []
+        for i in range (0,4):
+            if self.__kanten[i][1] == "Y": yellowUp.append(i + 1)
+        
+        while len(yellowUp) < 4:
+            if len(yellowUp) == 0 or len(yellowUp) == 1 or len(yellowUp) == 3:
+                self.cube.seiteDrehen("B", 1)
+                self.__solvehistory.append(("B", 1))
+                self.__curentTeile()
+                
+                self.__eckeMicroR1("B")
+                
+                self.cube.seiteDrehen("B", -1)
+                self.__solvehistory.append(("B", 1))
+                self.__curentTeile()
+                
+            elif len(yellowUp) == 2:
+                if (yellowUp[0]-1)%4 == ((yellowUp[1]-1) + 1)%4:
+                    
+                    middles = ["B", "R", "G", "O"]
+                    col = middles[(yellowUp[0])%4]
+                    
+                    self.cube.seiteDrehen(col, 1)
+                    self.__solvehistory.append((col, 1))
+                    self.__curentTeile()
+                    
+                    self.__eckeMicroR1(col)
+                    
+                    self.cube.seiteDrehen(col, -1)
+                    self.__solvehistory.append((col, -1))
+                    self.__curentTeile()
+                    
+                elif (yellowUp[1]-1)%4 == ((yellowUp[0]-1) + 1)%4:
+                    middles = ["B", "R", "G", "O"]
+                    col = middles[(yellowUp[1])%4]
+                    
+                    self.cube.seiteDrehen(col, 1)
+                    self.__solvehistory.append((col, 1))
+                    self.__curentTeile()
+                    
+                    self.__eckeMicroR1(col)
+                    
+                    self.cube.seiteDrehen(col, -1)
+                    self.__solvehistory.append((col, -1))
+                    self.__curentTeile()
+                
+                elif yellowUp[0] == yellowUp[1] + 2 or yellowUp[1] == yellowUp[0] + 2:
+                    
+                    middles = ["B", "R", "G", "O"]
+                    col = middles[(yellowUp[0])%4]
+                    
+                    self.cube.seiteDrehen(col, 1)
+                    self.__solvehistory.append((col, 1))
+                    self.__curentTeile()
+                    
+                    self.__eckeMicroR1(col)
+                    
+                    self.cube.seiteDrehen(col, -1)
+                    self.__solvehistory.append((col, -1))
+                    self.__curentTeile()
+                    
+            self.__curentTeile()
+            yellowUp.clear()
+            for i in range (0,4):
+                if self.__kanten[i][1] == "Y": yellowUp.append(i + 1)
+
+# ---------------------------------------------------------Ende KreuzOben---------------------------------------------------------
 
     def __curentKanten(self):
         self.__kanten.clear()
@@ -486,7 +555,7 @@ class CubeSolver:
         for i in range(0,12):
             if "W" in self.__kanten[i]:
                 self.__whiteKanten.append(i+1)
-    
+
     def __curentEcken(self):
         self.__ecken.clear()
         self.__ecken = self.cube.getCorners()
@@ -497,8 +566,7 @@ class CubeSolver:
 
             if "W" in self.__ecken[i]:
                 self.__whiteEcken.append(i+1)
-    
+
     def __curentTeile(self):
         self.__curentEcken()
         self.__curentKanten()
-        

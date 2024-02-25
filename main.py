@@ -24,17 +24,19 @@ print(wurf.colorPrint())
 
 # Dieser moveset hat Mal für Bugs gesorgt. Mit diesen Zeilen kann man gut testen. 
 
-# 
+"""
+moveset = [('Y', -1), ('Y', 1), ('O', 1), ('B', -1), ('B', -1), ('G', -1), ('G', -1), ('R', 1), ('G', 1), ('O', 1)]
+for item in moveset:
+    wurf.seiteDrehen(item[0], item[1])
+"""
 
-# moveset = [('O', 1), ('B', 1), ('Y', 1), ('O', 1), ('W', 1), ('R', 1), ('W', 1), ('B', 1), ('B', 1), ('W', -1)]
-# for item in moveset:
-#     wurf.seiteDrehen(item[0], item[1])
-
-wurf.mischen(10)
+wurf.mischen(1000)
 print(wurf.cubeHistory)
 
 print(wurf.colorPrint())
-solve.solveMidSides()
+solve.solveUpperCross()
+
+print(wurf.colorPrint())
 
 print(solve.getHistory())
 
