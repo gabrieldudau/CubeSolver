@@ -15,7 +15,7 @@ class AdvMotor:
         self.drehungGeschwindigkeit = 500
 
     
-    def drehung(self, anzahl):
-        self.motor.run_angle(self.drehungGeschwindigkeit, anzahl*self.drehungWinkel)
+    def drehung(self, anzahl, direction):
+        self.motor.run_angle(direction * self.drehungGeschwindigkeit, anzahl*self.drehungWinkel)
     
     

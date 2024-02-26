@@ -49,7 +49,7 @@ print(wurf.colorPrint())
 
 print(wurf.colorPrint())
 
-wurf.mischen(10)
+wurf.mischen(1000)
 print(wurf.cubeHistory)
 
 mix = copy.deepcopy(wurf.cubeHistory)
@@ -77,6 +77,8 @@ for item in solved:
     test.seiteDrehen(item[0], item[1])
 
 print(test.colorPrint())
+
+print(len(solved))
 
 
 

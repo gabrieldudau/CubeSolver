@@ -6,7 +6,7 @@ from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
 
-from Farbchecker import Farbchecker
+from Robot.Sensors.Farbchecker import Farbchecker
 
 
 class AdvColorSensor:

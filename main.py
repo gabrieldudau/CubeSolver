@@ -10,11 +10,11 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 from Robot.Sensors.Farbchecker import Farbchecker
 from Robot.Motors.DownTurnMotor import DownTurnMotor
 from Robot.Motors.SidePushMotor import SidePushMotor
-
+from Robot.Robot import Robot
 
 # -----------------------------------------------------------------Testprogramm für ev3-----------------------------------------------------------------
 
-
+"""
 farb = Farbchecker()
 
 ev3 = EV3Brick()
@@ -44,7 +44,7 @@ for i in range(6):
     drehhMot.motor.run_until_stalled(50)
     wait(100)
     drehhMot.motor.run_angle(-50, 60)
-
+"""
 
 """
 while True:
@@ -63,3 +63,6 @@ while True:
 """
     
     
+rob = Robot(Port.A, Port.C, Port.B, Port.S1)
+
+rob.getFarben()

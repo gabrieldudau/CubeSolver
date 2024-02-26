@@ -1,5 +1,4 @@
-
-from AdvMotor import AdvMotor
+from Robot.Motors.AdvMotor import AdvMotor
 
 class SideTurnMotor(AdvMotor):
     
