@@ -6,12 +6,14 @@ from Robot.Sensors.AdvColorSensor import AdvColorSensor
 from Robot.Cube.Cube import Wuerfel
 from Robot.Cube.CubeSolver import CubeSolver
 from pybricks.tools import wait
+from pybricks.hubs import EV3Brick
 
 class Robot: 
-    def __init__(self, portDownTurn:str, portSidePush:str, portSideTurn:str, portColSens:str) -> None:
+    def __init__(self,ev3:EV3Brick, portDownTurn:str, portSidePush:str, portSideTurn:str, portColSens:str) -> None:
         
         # Das sind alles tatsächliche, existierende Objekte, welche hier als Objekte modeliert werden.
         
+        self.ev3 = ev3
         self.__downTurn = DownTurnMotor(portDownTurn)
         self.__sidePush = SidePushMotor(portSidePush)
         self.__sideTurn = SideTurnMotor(portSideTurn)
@@ -23,6 +25,7 @@ class Robot:
         self.cube = Wuerfel()
         self.cubeSolver = CubeSolver(self.cube)
         
+        
         self.curentColor = "R"
         
     def getFarben(self):
@@ -33,15 +36,19 @@ class Robot:
         blueCols = {}
         yellowCols = {}
         
-        """
+        
         for i in range(1,9):
             whiteCols[i] = self.__colSens.scanCol()
+            self.ev3.screen.print(str(i) + " - >" + str(whiteCols[i]))
+            print(whiteCols[i])
             wait(500)
             self.__downTurn.halbeDrehung(400, 1)
             wait(500)
+            
         
         self.__downTurn.halbeDrehung(400, 1)
-        """
+        
+        
         
         for index in whiteCols:
             self.cube.setFarbenFuerSeite("W", index, whiteCols[index])

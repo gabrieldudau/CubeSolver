@@ -17,7 +17,7 @@ from Robot.Robot import Robot
 """
 farb = Farbchecker()
 
-ev3 = EV3Brick()
+
 colSens = ColorSensor(Port.S1)
 
 downTurn = DownTurnMotor(Port.A)
@@ -61,8 +61,8 @@ while True:
     if Button.UP in ev3.buttons.pressed() :
         break
 """
+ev3 = EV3Brick()
     
-    
-rob = Robot(Port.A, Port.C, Port.B, Port.S1)
+rob = Robot(ev3, Port.A, Port.C, Port.B, Port.S1)
 
 rob.getFarben()
