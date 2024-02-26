@@ -20,12 +20,17 @@ class Wuerfel:
     -----
     """
     
-    def __init__(self):
+    def __init__(self, sides = None):
         self.cube = dict({})
         for color in ["R", "Y", "O", "W", "B", "G"]:
         
             self.cube[color] = [color,color,color,color,color,color,color,color]
         self.cubeHistory = []
+        
+        if sides != None:
+            self.cube = sides
+    
+    
 
     def getCorner(self, nummer:int) -> list:
         """Die Ecken werden von oben links vorne nach rechts durchnumeriert, und dann unten auch von links unten vorne durchnumeriert"""
@@ -175,8 +180,7 @@ class Wuerfel:
                 self.cube["W"][3:6] = copycube["R"][1:4]
                 self.cube["G"] = [self.cube["G"][i]for i in range(2,8)] + self.cube["G"][0:2]
                 self.cubeHistory.append(("G",-1))
-                
-                    
+
     def setFarbenFuerSeite(self, seite:str, position:int, farbe:str):           # Zählen von 1 zu 9
         if seite in self.cube.keys() and position > 0 and position < 9 and farbe in self.cube.keys():
             self.cube[seite][position-1] = farbe
@@ -187,7 +191,6 @@ class Wuerfel:
         for i in range (zuege):
             seite = random.randint(0,5)
             self.seiteDrehen(list(self.cube.keys())[seite], random.choice([-1,1]) )
-
 
     def colorPrint(self) -> str:
         up = ""

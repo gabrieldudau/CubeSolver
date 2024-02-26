@@ -12,4 +12,9 @@ from Farbchecker import Farbchecker
 class AdvColorSensor:
     def __init__(self, port:str) -> None:
         self.farbSensor = ColorSensor(port)
-        self.farbCheckr = Farbchecker()
+        self.farbChecker = Farbchecker()
+    
+    def scanCol(self) -> str :
+        colors = self.farbSensor.rgb()
+        col = self.farbChecker.rubColWArea(colors)
+    

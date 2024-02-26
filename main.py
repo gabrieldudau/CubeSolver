@@ -7,40 +7,59 @@ from pybricks.parameters import Port, Stop, Direction, Button, Color
 from pybricks.tools import wait, StopWatch, DataLog
 from pybricks.robotics import DriveBase
 from pybricks.media.ev3dev import SoundFile, ImageFile
-
-from Robot.Cube.Cube import Wuerfel
-from Robot.Cube.CubeSolver import CubeSolver
 from Robot.Sensors.Farbchecker import Farbchecker
+from Robot.Motors.DownTurnMotor import DownTurnMotor
+from Robot.Motors.SidePushMotor import SidePushMotor
 
-# -----------------------------------------------------------------Testprogramm für PC ohne ev3-----------------------------------------------------------------
+
+# -----------------------------------------------------------------Testprogramm für ev3-----------------------------------------------------------------
 
 
 farb = Farbchecker()
 
-wurf = Wuerfel()
-solve = CubeSolver(wurf)
+ev3 = EV3Brick()
+colSens = ColorSensor(Port.S1)
 
-print(wurf.colorPrint())
+downTurn = DownTurnMotor(Port.A)
 
-# Dieser moveset hat Mal für Bugs gesorgt. Mit diesen Zeilen kann man gut testen. 
+
+drehhMot = SidePushMotor(Port.B)
+
+pushMot = SidePushMotor(Port.C)
+
+downTurn.drehung(4)
+
+for i in range(6):
+    drehhMot.motor.run_until_stalled(100)
+    wait(100)
+    drehhMot.motor.run_until_stalled(10)
+
+    pushMot.motor.run_until_stalled(100)
+
+    wait(400)
+    drehhMot.motor.run_angle(-200, 105)
+
+    pushMot.motor.run_until_stalled(-100)
+
+    drehhMot.motor.run_until_stalled(50)
+    wait(100)
+    drehhMot.motor.run_angle(-50, 60)
+
 
 """
-moveset = [('Y', -1), ('Y', 1), ('O', 1), ('B', -1), ('B', -1), ('G', -1), ('G', -1), ('R', 1), ('G', 1), ('O', 1)]
-for item in moveset:
-    wurf.seiteDrehen(item[0], item[1])
+while True:
+    colors = colSens.rgb()
+    
+
+    if Button.DOWN in ev3.buttons.pressed():
+        ev3.screen.clear()
+        print(colors)
+        out = "R:" + str(colors[0]) + "-G:" + str(colors[1])+ "-B:" + str(colors[2])
+        ev3.screen.print(out)
+        ev3.screen.print(str(farb.rubColWDif(colors[0], colors[1], colors[2])))
+        print(str(farb.rubColWDif(colors[0], colors[1], colors[2])))
+    if Button.UP in ev3.buttons.pressed() :
+        break
 """
-
-wurf.mischen(1000)
-print(wurf.cubeHistory)
-
-print(wurf.colorPrint())
-solve.solveUpperCross()
-
-print(wurf.colorPrint())
-
-print(solve.getHistory())
-
-
-
-
+    
     

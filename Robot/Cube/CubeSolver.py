@@ -1,3 +1,4 @@
+import time
 from Robot.Cube.Cube import Wuerfel
 
 class CubeSolver:
@@ -547,6 +548,216 @@ class CubeSolver:
 
 # ---------------------------------------------------------Ende KreuzOben---------------------------------------------------------
 
+# ---------------------------------------------------------Anfang GelbOben---------------------------------------------------------
+
+    def solveUpperSide(self):
+        self.solveUpperCross()
+        middles = ["B", "R", "G", "O", "B"]
+        
+        self.__curentTeile()
+        
+        unsolvedCorner = []
+        for i in range(0,4):
+            if self.__ecken[i][1] == "Y": unsolvedCorner.append(i+1)
+        
+        while len(unsolvedCorner)< 4:
+            if len(unsolvedCorner) == 1:
+                col = middles[unsolvedCorner[0] - 1]
+                self.__USmicro1(col)
+            if len(unsolvedCorner) == 0 or len(unsolvedCorner) == 3:
+                if self.__ecken[0][2]=="Y" : self.__USmicro1("B")
+                elif self.__ecken[1][0]=="Y" : self.__USmicro1("R")
+                elif self.__ecken[2][2]=="Y" : self.__USmicro1("G")
+                elif self.__ecken[3][0]=="Y" : self.__USmicro1("O")
+            if len(unsolvedCorner) == 2:
+                if self.__ecken[0][0]=="Y" : self.__USmicro1("B")
+                elif self.__ecken[1][2]=="Y" : self.__USmicro1("R")
+                elif self.__ecken[2][0]=="Y" : self.__USmicro1("G")
+                elif self.__ecken[3][2]=="Y" : self.__USmicro1("O")
+            unsolvedCorner.clear()
+            for i in range(0,4):
+                if self.__ecken[i][1] == "Y": unsolvedCorner.append(i+1)
+
+    def __USmicro1(self, col:str):
+        middles = ["B", "R", "G", "O", "B"]
+        side = middles[middles.index(col) + 1]
+        self.__curentTeile()
+        
+        self.cube.seiteDrehen(side, 1)
+        self.__solvehistory.append((side, 1))
+        
+        self.cube.seiteDrehen("Y", 1)
+        self.__solvehistory.append((side, 1))
+        
+        self.cube.seiteDrehen(side, -1)
+        self.__solvehistory.append((side, -1))
+        
+        self.cube.seiteDrehen("Y", 1)
+        self.__solvehistory.append(("Y", 1))
+        
+        self.cube.seiteDrehen(side, 1)
+        self.__solvehistory.append((side, 1))
+        
+        self.cube.seiteDrehen("Y", 1)
+        self.__solvehistory.append(("Y", 1))
+        
+        self.cube.seiteDrehen("Y", 1)
+        self.__solvehistory.append(("Y", 1))
+        
+        self.cube.seiteDrehen(side, -1)
+        self.__solvehistory.append((side, -1))
+        
+        self.__curentTeile()
+        
+# ---------------------------------------------------------Ende GelbOben---------------------------------------------------------
+
+# ---------------------------------------------------------Anfang GelbSeiten---------------------------------------------------------
+
+    def solveYellowSides(self):
+        self.solveUpperSide()
+        self.__curentTeile()
+        
+        fischAugen = []
+        if self.__ecken[0][0] == self.__ecken[1][0]: fischAugen.append("O")
+        if self.__ecken[1][2] == self.__ecken[2][2]: fischAugen.append("B")
+        if self.__ecken[2][0] == self.__ecken[3][0]: fischAugen.append("R")
+        if self.__ecken[3][2] == self.__ecken[0][2]: fischAugen.append("G")
+        
+        while len(fischAugen) < 4:
+            if len(fischAugen) > 0:
+                self.__SYmicro1(fischAugen[0])
+            else:
+                self.__SYmicro1("B")
+            fischAugen = []
+            if self.__ecken[0][0] == self.__ecken[1][0]: fischAugen.append("O")
+            if self.__ecken[1][2] == self.__ecken[2][2]: fischAugen.append("B")
+            if self.__ecken[2][0] == self.__ecken[3][0]: fischAugen.append("R")
+            if self.__ecken[3][2] == self.__ecken[0][2]: fischAugen.append("G")
+    
+    def __SYmicro1(self,col:str):
+        self.__curentTeile()
+        middles = ["B", "R", "G", "O"]
+        leftOfCol = middles[(middles.index(col)+3)%4]
+        rightOfCol =  middles[(middles.index(col)+5)%4]
+        
+        self.cube.seiteDrehen(col, -1)
+        self.__solvehistory.append((col, -1))
+        
+        self.cube.seiteDrehen(leftOfCol, 1)
+        self.__solvehistory.append((col, 1))
+        
+        self.cube.seiteDrehen(col, -1)
+        self.__solvehistory.append((col, -1))
+        
+        self.cube.seiteDrehen(rightOfCol, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.cube.seiteDrehen(rightOfCol, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.cube.seiteDrehen(col, 1)
+        self.__solvehistory.append((col, 1))
+        
+        self.cube.seiteDrehen(leftOfCol, -1)
+        self.__solvehistory.append((col, -1))
+        
+        self.cube.seiteDrehen(col, -1)
+        self.__solvehistory.append((col, -1))
+        
+        self.cube.seiteDrehen(rightOfCol, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.cube.seiteDrehen(rightOfCol, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.cube.seiteDrehen(col, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.cube.seiteDrehen(col, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.__curentTeile()
+
+# ---------------------------------------------------------Ende GelbSeiten---------------------------------------------------------
+
+# ---------------------------------------------------------Anfang Loesen---------------------------------------------------------
+
+    def solveCube(self):
+        self.__curentTeile()
+        self.solveYellowSides()
+        
+        geloesteSeiten = []
+        if self.__ecken[0][0] == self.__ecken[1][0] == self.__kanten[0][0]: geloesteSeiten.append("G")
+        if self.__ecken[1][2] == self.__ecken[2][2] == self.__kanten[1][0]: geloesteSeiten.append("O")
+        if self.__ecken[2][0] == self.__ecken[3][0] == self.__kanten[2][0]: geloesteSeiten.append("B")
+        if self.__ecken[3][2] == self.__ecken[0][2] == self.__kanten[3][0]: geloesteSeiten.append("R")
+        
+        while len(geloesteSeiten) < 4:
+            if len(geloesteSeiten) > 0:
+                self.__Cmicro(geloesteSeiten[0])
+            else:
+                self.__Cmicro("B")
+            
+            geloesteSeiten = []
+            if self.__ecken[0][0] == self.__ecken[1][0] == self.__kanten[0][0]: geloesteSeiten.append("G")
+            if self.__ecken[1][2] == self.__ecken[2][2] == self.__kanten[1][0]: geloesteSeiten.append("O")
+            if self.__ecken[2][0] == self.__ecken[3][0] == self.__kanten[2][0]: geloesteSeiten.append("B")
+            if self.__ecken[3][2] == self.__ecken[0][2] == self.__kanten[3][0]: geloesteSeiten.append("R")
+        
+        while self.__kanten[0][0] != "B":
+            self.cube.seiteDrehen("Y", 1)
+            self.__solvehistory.append(("Y", 1))
+            
+            self.__curentTeile()
+        
+        
+    
+    def __Cmicro(self, col):
+        self.__curentTeile()
+        middles = ["B", "R", "G", "O"]
+        rightOfCol =  middles[(middles.index(col)+5)%4]
+        
+        self.cube.seiteDrehen(rightOfCol, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.cube.seiteDrehen("Y", -1)
+        self.__solvehistory.append(("Y", -1))
+        
+        self.cube.seiteDrehen(rightOfCol, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.cube.seiteDrehen("Y", 1)
+        self.__solvehistory.append(("Y", 1))
+        
+        self.cube.seiteDrehen(rightOfCol, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.cube.seiteDrehen("Y", 1)
+        self.__solvehistory.append(("Y", 1))
+        
+        self.cube.seiteDrehen(rightOfCol, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.cube.seiteDrehen("Y", -1)
+        self.__solvehistory.append(("Y", -1))
+        
+        self.cube.seiteDrehen(rightOfCol, -1)
+        self.__solvehistory.append((rightOfCol, -1))
+        
+        self.cube.seiteDrehen("Y", -1)
+        self.__solvehistory.append(("Y", -1))
+        
+        self.cube.seiteDrehen(rightOfCol, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.cube.seiteDrehen(rightOfCol, 1)
+        self.__solvehistory.append((rightOfCol, 1))
+        
+        self.__curentTeile()
+    
+# ---------------------------------------------------------Ende Loesen---------------------------------------------------------
+
+    
     def __curentKanten(self):
         self.__kanten.clear()
         self.__kanten = [self.cube.getSide(i) for i in range (1,13)]
