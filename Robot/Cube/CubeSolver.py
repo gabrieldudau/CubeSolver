@@ -481,6 +481,7 @@ class CubeSolver:
     def solveUpperCross(self):
         self.solveMidSides()
         yellowUp = []
+        
         for i in range (0,4):
             if self.__kanten[i][1] == "Y": yellowUp.append(i + 1)
         
@@ -493,7 +494,7 @@ class CubeSolver:
                 self.__eckeMicroR1("B")
                 
                 self.cube.seiteDrehen("B", -1)
-                self.__solvehistory.append(("B", 1))
+                self.__solvehistory.append(("B", -1))
                 self.__curentTeile()
                 
             elif len(yellowUp) == 2:
@@ -587,7 +588,7 @@ class CubeSolver:
         self.__solvehistory.append((side, 1))
         
         self.cube.seiteDrehen("Y", 1)
-        self.__solvehistory.append((side, 1))
+        self.__solvehistory.append(("Y", 1))
         
         self.cube.seiteDrehen(side, -1)
         self.__solvehistory.append((side, -1))
@@ -644,7 +645,7 @@ class CubeSolver:
         self.__solvehistory.append((col, -1))
         
         self.cube.seiteDrehen(leftOfCol, 1)
-        self.__solvehistory.append((col, 1))
+        self.__solvehistory.append((leftOfCol, 1))
         
         self.cube.seiteDrehen(col, -1)
         self.__solvehistory.append((col, -1))
@@ -659,7 +660,7 @@ class CubeSolver:
         self.__solvehistory.append((col, 1))
         
         self.cube.seiteDrehen(leftOfCol, -1)
-        self.__solvehistory.append((col, -1))
+        self.__solvehistory.append((leftOfCol, -1))
         
         self.cube.seiteDrehen(col, -1)
         self.__solvehistory.append((col, -1))
@@ -671,10 +672,10 @@ class CubeSolver:
         self.__solvehistory.append((rightOfCol, 1))
         
         self.cube.seiteDrehen(col, 1)
-        self.__solvehistory.append((rightOfCol, 1))
+        self.__solvehistory.append((col, 1))
         
         self.cube.seiteDrehen(col, 1)
-        self.__solvehistory.append((rightOfCol, 1))
+        self.__solvehistory.append((col, 1))
         
         self.__curentTeile()
 
@@ -710,8 +711,6 @@ class CubeSolver:
             
             self.__curentTeile()
         
-        
-    
     def __Cmicro(self, col):
         self.__curentTeile()
         middles = ["B", "R", "G", "O"]

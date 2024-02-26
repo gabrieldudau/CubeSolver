@@ -1,5 +1,6 @@
 #!/usr/bin/env pybricks-micropython
 
+import copy
 from pybricks.hubs import EV3Brick
 from pybricks.ev3devices import (Motor, TouchSensor, ColorSensor,
                                  InfraredSensor, UltrasonicSensor, GyroSensor)
@@ -14,7 +15,9 @@ from Robot.Sensors.Farbchecker import Farbchecker
 
 # -----------------------------------------------------------------Testprogramm für PC ohne ev3-----------------------------------------------------------------
 
-
+farb = Farbchecker()
+wurf = Wuerfel()
+solve = CubeSolver(wurf)
 
 
 # Dieser moveset hat Mal für Bugs gesorgt. Mit diesen Zeilen kann man gut testen. 
@@ -26,25 +29,30 @@ for item in moveset:
 """
 
 """
-mix = [('W', -1), ('O', -1), ('W', 1), ('G', 1), ('W', -1), ('B', -1), ('G', 1), ('B', 1), ('W', 1), ('B', -1)]
+print(wurf.colorPrint())
+
+mix = [('B', 1), ('B', 1), ('B', 1), ('W', 1), ('R', -1), ('Y', 1), ('W', 1), ('G', -1), ('Y', -1), ('Y', 1)]
 
 for item in mix:
     wurf.seiteDrehen(item[0], item[1])
 
-solve =[('Y', 1), ('G', 1), ('B', 1), ('B', 1), ('Y', 1), ('O', 1), ('Y', -1), ('B', -1), ('Y', 1), ('O', -1), ('Y', -1), ('B', 1), ('B', 1), ('Y', 1), ('Y', 1), ('R', 1), ('R', 1), ('Y', -1), ('Y', -1), ('Y', -1), ('O', 1), ('O', 1), ('Y', -1), ('R', 1), ('R', 1), ('Y', -1), ('Y', -1), ('B', 1), ('B', 1), ('Y', -1), ('G', 1), ('G', 1), ('Y', -1), ('Y', -1), ('G', 1), ('Y', 1), ('G', -1), ('Y', -1), ('B', 1), ('Y', 1), ('B', -1), ('Y', -1), ('B', 1), ('Y', 1), ('B', -1), ('Y', -1), ('B', 1), ('Y', 1), ('B', -1), ('Y', -1), ('Y', -1), ('Y', -1), ('Y', -1), ('R', -1), ('Y', -1), ('R', 1), ('Y', 1), ('G', 1), ('Y', 1), ('G', -1), ('Y', -1), ('Y', -1), ('Y', -1), ('Y', -1), ('Y', -1), ('O', -1), ('Y', -1), ('O', 1), ('Y', 1), ('B', 1), ('Y', 1), ('B', -1), ('Y', -1), ('Y', -1), ('Y', -1), ('Y', 1), ('R', 1), ('Y', 1), ('R', -1), ('Y', -1), ('B', -1), ('Y', -1), ('B', 1), ('Y', 1), ('Y', -1), ('Y', -1), ('Y', -1), ('Y', 1), ('O', 1), ('Y', 1), ('O', -1), ('Y', -1), ('G', -1), ('Y', -1), ('G', 1), ('Y', 1), ('R', 1), ('G', 1), ('Y', 1), ('G', -1), ('Y', -1), ('R', -1), ('R', 1), ('G', 1), ('Y', 1), ('G', -1), ('Y', -1), ('R', -1)]
+print(wurf.colorPrint())
+
+solve = [('O', 1), ('Y', 1), ('O', 1), ('B', 1), ('B', 1), ('R', 1), ('R', 1), ('Y', -1), ('Y', -1), ('G', 1), ('G', 1), ('B', 1), ('B', 1), ('R', 1), ('R', 1), ('O', 1), ('O', 1), ('Y', -1), ('Y', -1), ('Y', -1), ('O', 1), ('Y', 1), ('O', -1), ('Y', -1), ('O', 1), ('Y', 1), ('O', -1), ('Y', -1), ('O', 1), ('Y', 1), ('O', -1), ('Y', -1), ('B', 1), ('Y', 1), ('B', -1), ('Y', -1), ('B', 1), ('Y', 1), ('B', -1), ('Y', -1), ('Y', 1), ('G', 1), ('Y', -1), ('G', -1), ('Y', -1), ('R', 1), ('Y', 1), ('R', -1), ('Y', -1), ('Y', -1), ('Y', 1), ('B', 1), ('Y', 1), ('B', -1), ('Y', -1), ('O', -1), ('Y', -1), ('O', 1), ('Y', 1), ('Y', -1), ('Y', -1), ('Y', 1), ('O', 1), ('Y', 1), ('O', -1), ('Y', -1), ('G', -1), ('Y', -1), ('G', 1), ('Y', 1), ('R', 1), ('Y', 1), ('R', -1), ('Y', -1), ('B', -1), ('Y', -1), ('B', 1), ('Y', 1), ('Y', -1), ('Y', -1), ('R', -1), ('Y', -1), ('R', 1), ('Y', 1), ('G', 1), ('Y', 1), ('G', -1), ('Y', -1), ('Y', -1), ('B', -1), ('Y', -1), ('B', 1), ('Y', 1), ('R', 1), ('Y', 1), ('R', -1), ('Y', -1), ('B', 1), ('R', 1), ('Y', 1), ('R', -1), ('Y', -1), ('B', -1), ('G', 1), ('O', 1), ('Y', 1), ('O', -1), ('Y', -1), ('G', -1), ('G', 1), ('G', 1), ('G', -1), ('Y', 1), ('G', 1), ('Y', 1), ('Y', 1), ('G', -1), ('B', -1), ('O', 1), ('B', -1), ('R', 1), ('R', 1), ('B', 1), ('O', -1), ('B', -1), ('R', 1), ('R', 1), ('B', 1), ('B', 1), ('R', -1), ('B', 1), ('R', -1), ('G', 1), ('G', 1), ('R', 1), ('B', -1), ('R', -1), ('G', 1), ('G', 1), ('R', 1), ('R', 1), ('G', 1), ('Y', -1), ('G', 1), ('Y', 1), ('G', 1), ('Y', 1), ('G', 1), ('Y', -1), ('G', -1), ('Y', -1), ('G', 1), ('G', 1), ('G', 1), ('Y', -1), ('G', 1), ('Y', 1), ('G', 1), ('Y', 1), ('G', 1), ('Y', -1), ('G', -1), ('Y', -1), ('G', 1), ('G', 1), ('Y', 1)]
+
 for item in solve:
     wurf.seiteDrehen(item[0], item[1])
+
+print(wurf.colorPrint())
 """
 
 
-farb = Farbchecker()
-wurf = Wuerfel()
-solve = CubeSolver(wurf)
-
 print(wurf.colorPrint())
 
-wurf.mischen(1000)
-# print(wurf.cubeHistory)
+wurf.mischen(10)
+print(wurf.cubeHistory)
+
+mix = copy.deepcopy(wurf.cubeHistory)
 
 print(wurf.colorPrint())
 
@@ -53,6 +61,22 @@ solve.solveCube()
 print(wurf.colorPrint())
 print(solve.getHistory())
 
+solved = copy.deepcopy(solve.getHistory())
+
+
+print("\n\n\n\n")
+
+test = Wuerfel()
+
+for item in mix:
+    test.seiteDrehen(item[0], item[1])
+    
+print(test.colorPrint())
+
+for item in solved:
+    test.seiteDrehen(item[0], item[1])
+
+print(test.colorPrint())
 
 
 
