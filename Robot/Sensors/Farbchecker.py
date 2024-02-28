@@ -23,18 +23,18 @@ class Farbchecker:
         for key in self.farben:
             self.farbbereiche[key] = []    
             for i in range(0,3):
-                if self.farben[key][i] >= 0:
-                    self.farbbereiche[key].append(self.farben[key][i] - 10)
+                if self.farben[key][i]-10 >= 0: self.farbbereiche[key].append(self.farben[key][i] - 10)
                 else: self.farbbereiche[key].append(0)
-                self.farbbereiche[key].append(self.farben[key][i] + 10)
-                
-    
+                if self.farben[key][i]+10 <= 100: self.farbbereiche[key].append(self.farben[key][i] + 10)
+                else: self.farbbereiche[key].append(100)
+
+
     def rubColWArea(self, r:int, g:int, b:int):
         """Diese Methode benutzt die Farbbereiche, um eine Farbe zu ermitteln. Wenn die Farbe in keinem Bereich ist, dann wird die Farbe ausgegeben, welche bei
         self.rubColWDif() mit denselben Werten herauskommt"""
         
         for key in self.farbbereiche:
-            ber = self.farbbereiche             #Dies gilt nur für die Abkürzung, ansonsten wäre die nächste Zeile sehr lang 
+            ber = self.farbbereiche[key]                #Dies gilt nur für die Abkürzung, ansonsten wäre die nächste Zeile sehr lang 
             if r > ber[0] and r < ber[1] and g > ber[2] and g < ber[3] and b > ber[4] and b < ber[5]:
                 return key
         

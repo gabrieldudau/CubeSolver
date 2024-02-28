@@ -6,7 +6,7 @@ class CubeSolver:
     Es ist notwendig, ein Objekt der Klasse Würfel zu bekommen. Anschließend wird mit den jeweiligen Methoden dieser Klasse, wie zum Beispiel
     solveCross() das eingegebene Würfel-Objekt "gelöst. Die dazu gebrauchten Bewegungen werden gespeichert. Man kann diese mit getHistory() bekommen.
     """
-    def __init__(self, cube:Wuerfel):
+    def __init__(self, cube:Wuerfel, debug = False):
         self.cube = cube
         self.__solvehistory = []
         
@@ -19,6 +19,9 @@ class CubeSolver:
         
         self.__curentTeile()
 
+        self.debug = debug
+        
+
     def getHistory(self):
         return self.__solvehistory
 
@@ -26,6 +29,11 @@ class CubeSolver:
 
     def solveCross(self):
         self.__curentTeile()
+        
+        if self.debug == True:
+            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nWurde wie folgt gemischt: \n\n" + str(self.cube.cubeHistory) + "\n\n" + "_"*150 + "\n" + "_"*150 + "\n\n")
+            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nStartpunkt:\n" + self.cube.colorPrint()+ "_"*150 + "\n" + "_"*150 + "\n\n")
+        
         
         # Hier werden die oberen Kanten gelöst. Wenn eine Kante mit weiß nach oben zeigt passt es, ansonsten
         # dreht man sie, sodass die weiße Seite der Kante nach oben zeigt. Es gibt nur einen Fall.    
@@ -75,6 +83,9 @@ class CubeSolver:
         # hier nur eine Methode. 
         
         self.__SCkanteMicroFix()
+        
+        if self.debug == True:
+            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nWeisses Kreuz:\n" + self.cube.colorPrint()+ "_"*150 + "\n" + "_"*150 + "\n\n")
 
     def __SCkanteMicroUp(self, num:int):
         """benutzt falls Kante oben ist, aber weiß nicht nach oben sondern seitlich zeigt"""
@@ -283,6 +294,9 @@ class CubeSolver:
                                                 .intersection([["B", "R", "G", "O"][i-5], ["B", "R", "G", "O"][i-4]]))) != 2):
                         downEcken.append(i)
                 upperEcken = list(set(self.__whiteEcken).intersection([1,2,3,4]))
+            
+        if self.debug == True:
+            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nUntere Ecken:\n" + self.cube.colorPrint()+ "_"*150 + "\n" + "_"*150 + "\n\n")
 
     def __DCupperCornerSolve(self, num:int):
         self.__curentTeile()
@@ -379,10 +393,6 @@ class CubeSolver:
     def solveMidSides(self):
         self.solveDownCorner()
         
-        # print("________________________________________erste Schicht______________________________________\n")
-        # print(self.cube.colorPrint())
-        # print("________________________________________________________________________________________")
-        
         middles = ["B", "R", "G", "O"]
         
         upperSide = []
@@ -416,10 +426,8 @@ class CubeSolver:
                 else:
                     if (self.__kanten[i][0] != middles[i-5]) or (self.__kanten[i][1] != middles[i-4]): middleSide.append(i+1)
         
-        
-        # print("________________________________________zweite Schicht______________________________________\n")
-        # print(self.cube.colorPrint())
-        # print("________________________________________________________________________________________")
+        if self.debug == True:
+            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nMittlere Schicht:\n" + self.cube.colorPrint()+ "_"*150 + "\n" + "_"*150 + "\n\n")
     
     def __MSsolveUpperSide(self, num:int):
         self.__curentTeile()
@@ -546,6 +554,9 @@ class CubeSolver:
             yellowUp.clear()
             for i in range (0,4):
                 if self.__kanten[i][1] == "Y": yellowUp.append(i + 1)
+        
+        if self.debug == True:
+            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nGelbes Kreuz:\n" + self.cube.colorPrint()+ "_"*150 + "\n" + "_"*150 + "\n\n")
 
 # ---------------------------------------------------------Ende KreuzOben---------------------------------------------------------
 
@@ -578,6 +589,9 @@ class CubeSolver:
             unsolvedCorner.clear()
             for i in range(0,4):
                 if self.__ecken[i][1] == "Y": unsolvedCorner.append(i+1)
+        
+        if self.debug == True:
+            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nObere Seite:\n" + self.cube.colorPrint()+ "_"*150 + "\n" + "_"*150 + "\n\n")
 
     def __USmicro1(self, col:str):
         middles = ["B", "R", "G", "O", "B"]
@@ -634,6 +648,9 @@ class CubeSolver:
             if self.__ecken[1][2] == self.__ecken[2][2]: fischAugen.append("B")
             if self.__ecken[2][0] == self.__ecken[3][0]: fischAugen.append("R")
             if self.__ecken[3][2] == self.__ecken[0][2]: fischAugen.append("G")
+        
+        if self.debug == True:
+            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nFischaugen:\n" + self.cube.colorPrint()+ "_"*150 + "\n" + "_"*150 + "\n\n")
     
     def __SYmicro1(self,col:str):
         self.__curentTeile()
@@ -710,6 +727,9 @@ class CubeSolver:
             self.__solvehistory.append(("Y", 1))
             
             self.__curentTeile()
+        
+        if self.debug == True:
+            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nErgebnis:\n" + self.cube.colorPrint()+ "_"*150 + "\n" + "_"*150 + "\n\n")
         
     def __Cmicro(self, col):
         self.__curentTeile()

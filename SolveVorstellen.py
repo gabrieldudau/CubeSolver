@@ -19,7 +19,7 @@ from Robot.Robot import Robot
 
 farb = Farbchecker()
 wurf = Wuerfel()
-solve = CubeSolver(wurf)
+solve = CubeSolver(wurf, True)
 
 
 # Dieser moveset hat Mal für Bugs gesorgt. Mit diesen Zeilen kann man gut testen. 
@@ -47,21 +47,14 @@ for item in solve:
 
 print(wurf.colorPrint())
 """
-"""
-
-print(wurf.colorPrint())
 
 wurf.mischen(10)
-print(wurf.cubeHistory)
 
 mix = copy.deepcopy(wurf.cubeHistory)
 
-print(wurf.colorPrint())
 
 solve.solveCube()
 
-print(wurf.colorPrint())
-print(solve.getHistory())
 
 solved = copy.deepcopy(solve.getHistory())
 
@@ -73,15 +66,16 @@ test = Wuerfel()
 for item in mix:
     test.seiteDrehen(item[0], item[1])
     
+print("_"*150 + "\n" + "_"*150 + "\n\n\nTest des Lösungsweges:\n\n\n" + "_"*150+"\n" + "_"*150+"\n\nNeuer Testwürfel:\n\n")
 print(test.colorPrint())
+print("_"*150 + "\n" + "_"*150 + "\n\n\nLoesefolge:\n\n\n" + str(solved) + "\n\n" + "Es wurden "+ str(len(solved)) + " Umdrehungen gebracht!\n\n")
 
 for item in solved:
     test.seiteDrehen(item[0], item[1])
 
-print(test.colorPrint())
+print(wurf.colorPrint())
 
-print(len(solved))
-"""
+
 
 
 
@@ -100,4 +94,3 @@ print(check.colorPrint())
 
 """
 
-rob = Robot(EV3Brick(), )
