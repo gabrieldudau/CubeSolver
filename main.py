@@ -63,6 +63,12 @@ while True:
 """
 ev3 = EV3Brick()
     
-rob = Robot(ev3, Port.A, Port.C, Port.B, Port.S1)
+rob = Robot(ev3, Port.A, Port.B, Port.C, Port.S1)
 
 rob.getFarben()
+
+
+
+
+
+

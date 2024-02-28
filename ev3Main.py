@@ -13,6 +13,8 @@ from Robot.Cube.Cube import Wuerfel
 from Robot.Cube.CubeSolver import CubeSolver
 from Robot.Sensors.Farbchecker import Farbchecker
 
+from Robot.Robot import Robot
+
 # -----------------------------------------------------------------Testprogramm für PC ohne ev3-----------------------------------------------------------------
 
 farb = Farbchecker()
@@ -45,11 +47,11 @@ for item in solve:
 
 print(wurf.colorPrint())
 """
-
+"""
 
 print(wurf.colorPrint())
 
-wurf.mischen(1000)
+wurf.mischen(10)
 print(wurf.cubeHistory)
 
 mix = copy.deepcopy(wurf.cubeHistory)
@@ -79,6 +81,7 @@ for item in solved:
 print(test.colorPrint())
 
 print(len(solved))
+"""
 
 
 
@@ -97,3 +100,4 @@ print(check.colorPrint())
 
 """
 
+rob = Robot(EV3Brick(), )

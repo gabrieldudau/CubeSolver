@@ -42,9 +42,8 @@ class Robot:
             self.ev3.screen.print(str(i) + " - >" + str(whiteCols[i]))
             print(whiteCols[i])
             wait(500)
-            self.__downTurn.halbeDrehung(400, 1)
+            self.__downTurn.halbeDrehung(100,1)
             wait(500)
-            
         
         self.__downTurn.halbeDrehung(400, 1)
         
@@ -104,12 +103,14 @@ class Robot:
                 self.seiteDrehen(elem[0], elem[1])
 
     def wuerfelDrehen(self, col):
-        middles = ["B","O","G","R"]
+        middles = ["R","G","O","B"]
         
         while self.curentColor != col:
-            self.__downTurn.drehung(1)
-            self.curentColor = middles[(middles.index(col) + 1)%4]
-
+            print(self.curentColor)
+            self.__downTurn.drehung(1, 1)
+            self.curentColor = middles[(middles.index(self.curentColor) + 1)%4]
+            print(self.curentColor)
+            
     def seiteDrehen(self, col, direction): 
         """Kann alles drehen bis auf gelb, also "Y" """
         direction = direction * -1
@@ -124,22 +125,39 @@ class Robot:
         
         wait(50)
         
-        self.__sideTurn.motor.run_angle(200 * direction * -1, 105)
+        self.__sideTurn.motor.run_angle(200 * direction * -1, 108)
         
         self.__sidePush.motor.run_until_stalled(-100)
         
-        self.__sideTurn.motor.run_until_stalled(50)
+        self.__sideTurn.motor.run_until_stalled(300)
+        self.__sideTurn.motor.run_until_stalled(20)
+        
         wait(100)
-        self.__sideTurn.motor.run_angle(-50, 60)
+        self.__sideTurn.motor.run_angle(-50, 70)
 
     def gelbDrehen(self, direction):
         
         direction = direction * -1
         
-        self.__sidePush.motor.run_until_stalled(100)
+        self.__sidePush.motor.run_until_stalled(1500)
         wait(100)
+        self.__sidePush.motor.run_until_stalled(50)
         
-        self.__downTurn.drehung(1, direction)
+        if direction == -1:
+            self.__downTurn.drehung(1, 1)
+        else:
+            self.__downTurn.drehung(1, 1)
+            self.__downTurn.drehung(1, 1)
+            self.__downTurn.drehung(1, 1)
+            
+        self.__sidePush.motor.run_until_stalled(-100)
+        self.__sidePush.motor.run_until_stalled(1500)
+        self.__sidePush.motor.run_until_stalled(-200)
+        
+        self.seiteDrehen(self.curentColor, -1)
+        self.seiteDrehen(self.curentColor, 1)
+        
+        
         
         self.__sidePush.motor.run_until_stalled(-100)
         

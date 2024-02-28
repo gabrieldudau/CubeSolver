@@ -16,5 +16,5 @@ class AdvColorSensor:
     
     def scanCol(self) -> str :
         colors = self.farbSensor.rgb()
-        col = self.farbChecker.rubColWArea(colors)
+        col = self.farbChecker.rubColWArea(colors[0], colors[1], colors[2])
     
