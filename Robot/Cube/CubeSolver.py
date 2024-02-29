@@ -3,8 +3,19 @@ from Robot.Cube.Cube import Wuerfel
 
 class CubeSolver:
     """### Diese Klasse löst den Würfel
-    Es ist notwendig, ein Objekt der Klasse Würfel zu bekommen. Anschließend wird mit den jeweiligen Methoden dieser Klasse, wie zum Beispiel
-    solveCross() das eingegebene Würfel-Objekt "gelöst. Die dazu gebrauchten Bewegungen werden gespeichert. Man kann diese mit getHistory() bekommen.
+    Es ist notwendig, ein Objekt der Klasse Würfel zu bekommen. Anschließend wird mit den jeweiligen Methoden dieser Klasse, das eingegebene Würfel-Objekt "gelöst". 
+    Die dazu gebrauchten Bewegungen werden gespeichert. Man kann diese mit getHistory() bekommen.
+    
+    Die Lösungsmethoden sind die Schritte des Anfaengeralgorithmus und lauten wie folgt:
+    - solveCross()
+    - solveDownCorner()
+    - solveMidSides()
+    - solveUpperCross()
+    - solveUpperSide()
+    - solveYellowSide()
+    - solveCube()
+    
+    Jede Methode führt jeweils die vorherigen Schritte aus, also kann solveCube() den gesammten Würfel lösen. 
     """
     def __init__(self, cube:Wuerfel, debug = False):
         self.cube = cube
