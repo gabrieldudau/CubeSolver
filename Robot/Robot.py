@@ -7,9 +7,10 @@ from Robot.Cube.Cube import Wuerfel
 from Robot.Cube.CubeSolver import CubeSolver
 from pybricks.tools import wait
 from pybricks.hubs import EV3Brick
+from pybricks.parameters import Port
 
 class Robot: 
-    def __init__(self,ev3:EV3Brick, portDownTurn:str, portSidePush:str, portSideTurn:str, portColSens:str) -> None:
+    def __init__(self,ev3:EV3Brick, portDownTurn:Port, portSidePush:Port, portSideTurn:Port, portColSens:Port) -> None:
         
         # Das sind alles tatsächliche, existierende Objekte, welche hier als Objekte modeliert werden.
         
@@ -46,6 +47,8 @@ class Robot:
             wait(500)
         
         self.__downTurn.halbeDrehung(400, 1)
+        
+        
         
         
         
@@ -107,7 +110,7 @@ class Robot:
         
         while self.curentColor != col:
             print(self.curentColor)
-            self.__downTurn.drehung(1, 1)
+            self.__downTurn.normaleDrehung(1, 1)
             self.curentColor = middles[(middles.index(self.curentColor) + 1)%4]
             print(self.curentColor)
             
@@ -121,13 +124,13 @@ class Robot:
         wait(100)
         self.__sideTurn.motor.run_until_stalled(direction * 10)
         
-        self.__sidePush.motor.run_until_stalled(100)
+        self.__sidePush.pushTo_FromCube(100)
         
         wait(50)
         
         self.__sideTurn.motor.run_angle(200 * direction * -1, 108)
         
-        self.__sidePush.motor.run_until_stalled(-100)
+        self.__sidePush.pushTo_FromCube(-100)
         
         self.__sideTurn.motor.run_until_stalled(300)
         self.__sideTurn.motor.run_until_stalled(20)
@@ -139,27 +142,27 @@ class Robot:
         
         direction = direction * -1
         
-        self.__sidePush.motor.run_until_stalled(1500)
+        self.__sidePush.pushTo_FromCube(1500)
         wait(100)
-        self.__sidePush.motor.run_until_stalled(50)
+        self.__sidePush.pushTo_FromCube(50)
         
         if direction == -1:
-            self.__downTurn.drehung(1, 1)
+            self.__downTurn.normaleDrehung(1, 1)
         else:
-            self.__downTurn.drehung(1, 1)
-            self.__downTurn.drehung(1, 1)
-            self.__downTurn.drehung(1, 1)
+            self.__downTurn.normaleDrehung(1, 1)
+            self.__downTurn.normaleDrehung(1, 1)
+            self.__downTurn.normaleDrehung(1, 1)
             
-        self.__sidePush.motor.run_until_stalled(-100)
-        self.__sidePush.motor.run_until_stalled(1500)
-        self.__sidePush.motor.run_until_stalled(-200)
+        self.__sidePush.pushTo_FromCube(-100)
+        self.__sidePush.pushTo_FromCube(1500)
+        self.__sidePush.pushTo_FromCube(-200)
         
         self.seiteDrehen(self.curentColor, -1)
         self.seiteDrehen(self.curentColor, 1)
         
         
         
-        self.__sidePush.motor.run_until_stalled(-100)
+        self.__sidePush.pushTo_FromCube(-100)
         
         
         

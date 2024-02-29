@@ -31,7 +31,7 @@ class CubeSolver:
         self.__curentTeile()
         
         if self.debug == True:
-            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nWurde wie folgt gemischt: \n\n" + str(self.cube.cubeHistory) + "\n\n" + "_"*150 + "\n" + "_"*150 + "\n\n")
+            print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nWurde wie folgt gemischt: \n\n" + str(self.cube.getCubeHistory()) + "\n\n" + "_"*150 + "\n" + "_"*150 + "\n\n")
             print("\n\n" + "_"*150 + "\n" + "_"*150 + "\nStartpunkt:\n" + self.cube.colorPrint()+ "_"*150 + "\n" + "_"*150 + "\n\n")
         
         

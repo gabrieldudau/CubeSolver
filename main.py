@@ -61,14 +61,21 @@ while True:
     if Button.UP in ev3.buttons.pressed() :
         break
 """
+
+
 ev3 = EV3Brick()
     
 rob = Robot(ev3, Port.A, Port.B, Port.C, Port.S1)
 
+
+
+rob.wuerfelDrehen("B")
+
+rob.seiteDrehen("G", 1)
+
+rob.seiteDrehen("G", -1)
+
+rob.gelbDrehen(1)
+
 rob.getFarben()
-
-
-
-
-
 

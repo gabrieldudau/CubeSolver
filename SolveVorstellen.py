@@ -50,7 +50,7 @@ print(wurf.colorPrint())
 
 wurf.mischen(10)
 
-mix = copy.deepcopy(wurf.cubeHistory)
+mix = copy.deepcopy(wurf.getCubeHistory())
 
 
 solve.solveCube()

@@ -23,4 +23,4 @@ class DownTurnMotor(AdvMotor):
         self.drehungWinkel = 90
         self.drehungGeschwindigkeit = 500
 
-        
+    

@@ -25,7 +25,7 @@ class Wuerfel:
         for color in ["R", "Y", "O", "W", "B", "G"]:
         
             self.cube[color] = [color,color,color,color,color,color,color,color]
-        self.cubeHistory = []
+        self.__cubeHistory = []
         
         if sides != None:
             self.cube = sides
@@ -71,8 +71,7 @@ class Wuerfel:
         elif nummer ==  11: return[short["G"][4], short["W"][4]]
         elif nummer ==  12: return[short["O"][4], short["W"][6]]
         else: return[]
-            
-    
+
 
     def seiteDrehen(self, farbe:str, richtung:int):                            # Richtung entweder 1 (-> Uhrzeiger) oder -1 (-> gegen Uhrzeiger)
         """Simuliert das Drehen einer Seite. Wenn man den Würfel so hält wie die Beschreibung es sagt, dann wird das genau so aussehen, wie die Methode es sagt."""
@@ -87,14 +86,14 @@ class Wuerfel:
                 self.cube["W"][7], self.cube["W"][0], self.cube["W"][1] = copycube["R"][5], copycube["R"][6], copycube["R"][7]
                 self.cube["O"][1:4] = copycube["W"][7], copycube["W"][0], copycube["W"][1]
                 self.cube["B"] = [self.cube["B"][i - 2]for i in range(8)]
-                self.cubeHistory.append(("B",1))
+                self.__cubeHistory.append(("B",1))
             if richtung == -1:
                 self.cube["Y"][3:6] = copycube["R"][5:8]
                 self.cube["R"][5:8] = [copycube["W"][7], copycube["W"][0], copycube["W"][1]]
                 self.cube["W"][7], self.cube["W"][0], self.cube["W"][1] = self.cube["O"][1:4]
                 self.cube["O"][1:4] = copycube["Y"][3:6]
                 self.cube["B"] = [self.cube["B"][i]for i in range(2,8)] + self.cube["B"][0:2]
-                self.cubeHistory.append(("B",-1))
+                self.__cubeHistory.append(("B",-1))
         
         if farbe ==  "Y":
             copycube = copy.deepcopy(self.cube)
@@ -104,14 +103,14 @@ class Wuerfel:
                 self.cube["G"][7], self.cube["G"][0], self.cube["G"][1] = copycube["O"][7], copycube["O"][0], copycube["O"][1]
                 self.cube["O"][7], self.cube["O"][0], self.cube["O"][1] = copycube["B"][7], copycube["B"][0], copycube["B"][1]
                 self.cube["Y"] = [self.cube["Y"][i - 2]for i in range(8)]
-                self.cubeHistory.append(("Y",1))
+                self.__cubeHistory.append(("Y",1))
             if richtung == -1:
                 self.cube["B"][7], self.cube["B"][0], self.cube["B"][1] = copycube["O"][7], copycube["O"][0], copycube["O"][1]
                 self.cube["R"][7], self.cube["R"][0], self.cube["R"][1] = copycube["B"][7], copycube["B"][0], copycube["B"][1]
                 self.cube["G"][7], self.cube["G"][0], self.cube["G"][1] = copycube["R"][7], copycube["R"][0], copycube["R"][1]
                 self.cube["O"][7], self.cube["O"][0], self.cube["O"][1] = copycube["G"][7], copycube["G"][0], copycube["G"][1]
                 self.cube["Y"] = [self.cube["Y"][i]for i in range(2,8)] + self.cube["Y"][0:2]
-                self.cubeHistory.append(("Y",-1))
+                self.__cubeHistory.append(("Y",-1))
         
         if farbe ==  "W":
             copycube = copy.deepcopy(self.cube)
@@ -121,14 +120,14 @@ class Wuerfel:
                 self.cube["G"][3:6] = copycube["R"][3:6]
                 self.cube["O"][3:6] = copycube["G"][3:6]
                 self.cube["W"] = [self.cube["W"][i - 2]for i in range(8)]
-                self.cubeHistory.append(("W",1))
+                self.__cubeHistory.append(("W",1))
             if richtung == -1:
                 self.cube["B"][3:6] = copycube["R"][3:6]
                 self.cube["R"][3:6] = copycube["G"][3:6]
                 self.cube["G"][3:6] = copycube["O"][3:6]
                 self.cube["O"][3:6] = copycube["B"][3:6]
                 self.cube["W"] = [self.cube["W"][i]for i in range(2,8)] + self.cube["W"][0:2]
-                self.cubeHistory.append(("W",-1))
+                self.__cubeHistory.append(("W",-1))
                 
         if farbe ==  "R":
             copycube = copy.deepcopy(self.cube)
@@ -138,14 +137,14 @@ class Wuerfel:
                 self.cube["W"][1:4] = copycube["G"][5:8]
                 self.cube["B"][1:4] = copycube["W"][1:4] 
                 self.cube["R"] = [self.cube["R"][i - 2]for i in range(8)]
-                self.cubeHistory.append(("R",1))
+                self.__cubeHistory.append(("R",1))
             if richtung == -1:
                 self.cube["Y"][1:4] = copycube["G"][5:8]
                 self.cube["G"][5:8] = copycube["W"][1:4] 
                 self.cube["W"][1:4] = copycube["B"][1:4]
                 self.cube["B"][1:4] = copycube["Y"][1:4]
                 self.cube["R"] = [self.cube["R"][i]for i in range(2,8)] + self.cube["R"][0:2]
-                self.cubeHistory.append(("R",-1))
+                self.__cubeHistory.append(("R",-1))
         
         if farbe ==  "O":
             copycube = copy.deepcopy(self.cube)
@@ -155,14 +154,14 @@ class Wuerfel:
                 self.cube["W"][5:8] = copycube["B"][5:8]
                 self.cube["G"][1:4] = copycube["W"][5:8] 
                 self.cube["O"] = [self.cube["O"][i - 2]for i in range(8)]
-                self.cubeHistory.append(("O",1))
+                self.__cubeHistory.append(("O",1))
             if richtung == -1:
                 self.cube["Y"][5:8] = copycube["B"][5:8]
                 self.cube["B"][5:8] = copycube["W"][5:8]
                 self.cube["W"][5:8] = copycube["G"][1:4]
                 self.cube["G"][1:4] = copycube["Y"][5:8]
                 self.cube["O"] = [self.cube["O"][i]for i in range(2,8)] + self.cube["O"][0:2]
-                self.cubeHistory.append(("O",-1))
+                self.__cubeHistory.append(("O",-1))
                 
         if farbe ==  "G":
             copycube = copy.deepcopy(self.cube)
@@ -172,14 +171,14 @@ class Wuerfel:
                 self.cube["Y"][7], self.cube["Y"][0], self.cube["Y"][1] = copycube["R"][1], copycube["R"][2], copycube["R"][3]
                 self.cube["W"][3:6] = copycube["O"][5:8]
                 self.cube["G"] = [self.cube["G"][i - 2]for i in range(8)]
-                self.cubeHistory.append(("G",1))
+                self.__cubeHistory.append(("G",1))
             if richtung == -1:
                 self.cube["O"][5:8] = copycube["W"][3:6]
                 self.cube["R"][1:4] = [copycube["Y"][7], copycube["Y"][0], copycube["Y"][1]]
                 self.cube["Y"][7], self.cube["Y"][0], self.cube["Y"][1] = copycube["O"][5:8]
                 self.cube["W"][3:6] = copycube["R"][1:4]
                 self.cube["G"] = [self.cube["G"][i]for i in range(2,8)] + self.cube["G"][0:2]
-                self.cubeHistory.append(("G",-1))
+                self.__cubeHistory.append(("G",-1))
 
     def setFarbenFuerSeite(self, seite:str, position:int, farbe:str):           # Zählen von 1 zu 9
         if seite in self.cube.keys() and position > 0 and position < 9 and farbe in self.cube.keys():
@@ -245,7 +244,9 @@ class Wuerfel:
 
     def __str__(self) -> str:
         return self.printAlt() + "\n"
-            
+
+    def getCubeHistory(self):
+        return self.__cubeHistory
 
 
 

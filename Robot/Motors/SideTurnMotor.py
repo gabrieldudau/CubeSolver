@@ -7,4 +7,4 @@ class SideTurnMotor(AdvMotor):
         self.drehungWinkel = 105
         self.drehungGeschwindigkeit = -400     
 
-        
+    

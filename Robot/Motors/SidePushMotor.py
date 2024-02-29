@@ -13,4 +13,3 @@ class SidePushMotor(AdvMotor):
         self.motor.run_until_stalled(speed)
     
     
-        
