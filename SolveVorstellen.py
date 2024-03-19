@@ -79,6 +79,7 @@ print(wurf.colorPrint())
 
 
 
+
 """
 So wird ein Würfel erzeugt, indem man die Farben manuell eingibt. 
 print(Wuerfel({"R": ["G","G","G","G","G","G","G","G"],

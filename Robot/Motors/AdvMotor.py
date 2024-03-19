@@ -18,4 +18,5 @@ class AdvMotor:
     def normaleDrehung(self, anzahl, direction):
         self.motor.run_angle(direction * self.drehungGeschwindigkeit, anzahl*self.drehungWinkel)
     
-    
+    def halbesDrehung(self, anzahl, direction):
+        self.motor.run_angle(direction*self.drehungGeschwindigkeit, anzahl*45)

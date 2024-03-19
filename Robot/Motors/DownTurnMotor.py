@@ -19,8 +19,9 @@ class DownTurnMotor(AdvMotor):
     def halbeDrehung(self, speed, anzahl):
         self.drehungGeschwindigkeit = speed
         self.drehungWinkel = 45
-        self.drehung(anzahl)
+        self.drehung(anzahl, 1)
         self.drehungWinkel = 90
-        self.drehungGeschwindigkeit = 500
+        self.drehungGeschwindigkeit = 500 
+ 
 
     
